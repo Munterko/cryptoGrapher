@@ -65,7 +65,7 @@ class cryptoGrapher:
 
 
         ttk.Button(body, text = 'Quit', command= master.destroy).pack(rBodyLayout)
-        ttk.Button(body, text = 'App status', command= lambda: messagebox.showinfo('App status', "version 0.3 - Ugly layout, but a layout!")).pack(rBodyLayout)
+        ttk.Button(body, text = 'App status', command= lambda: messagebox.showinfo('App status', "version 0.3 - Still ugly, but got a layout!")).pack(rBodyLayout)
         ttk.Button(body, text = 'Create graph', command= lambda: getCryptoGraph(self.ticker.get(), self.startDate.get(),self.endDate.get(), tradVolume= self.volume.get(), chartType= self.charType.get() )).pack(rBodyLayout)
         
         ttk.Label(graph, text= 'Graph placeholder').pack(side=TOP)
@@ -74,7 +74,13 @@ class cryptoGrapher:
         ttk.Label(foot, text= 'Foot placeholder').pack(side=BOTTOM)
 
     def fullscreenMode(self, master):
-        pass
+        if self.fscreen != True:
+            master.attributes('-fullscreen', True)
+            self.fscreen = True
+        else:
+            master.attributes('-fullscreen', False)
+            self.fscreen = False
+        return self.fscreen
     
 
     def bugRep(self, master):
@@ -84,7 +90,9 @@ class cryptoGrapher:
         ttk.Label(bugRepWindow, text= 'Not jet implemented').pack(anchor=CENTER, pady=75)
         ttk.Button(bugRepWindow, text= 'Close', command= bugRepWindow.destroy).pack(anchor=SE, side=BOTTOM, padx=5, pady=10)
         '''
-        To be written
+        To be implemented. Ideas:
+        Button linking to GitHub repo.
+        Textfield inputs (name, e-mail, problem title, problem description) with 'Send' button which sends to my e-mail the message.
         '''
 
         
