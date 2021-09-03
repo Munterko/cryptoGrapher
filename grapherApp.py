@@ -2,11 +2,10 @@ from tkinter import *
 from tkinter import ttk, messagebox
 from dataGrabAndPlot import getCryptoGraph
 
-
 class cryptoGrapher:
     def __init__(self, master):
         master.title('cryptoGrapher')
-        #master.iconbitmap('/') #set bugRepWindow icon
+        #master.iconbitmap('/') #sets a window icon
         master.geometry(f'{master.winfo_screenwidth()}x{master.winfo_screenheight()}')
         master.minsize(1250,200)
 
@@ -22,52 +21,55 @@ class cryptoGrapher:
         foot.place(relx=0, rely=1, y=-95, relwidth=1, height=95)
         
 
-        ttk.Label(head, text = 'This is a GUI aplication that creates custom graphs of crypto prices. Dates should be provided either as a year or in a YYYY-MM-DD format.').pack(side = LEFT, anchor=W, padx=20, expand=True)#f'{self.ticker} from {self.startDate} to {self.endDate}').pack() 
+        ttk.Label(head, text = '''This is a GUI aplication that creates custom graphs of crypto prices. 
+        Dates should be provided either as a year or in a YYYY-MM-DD format.''').pack(side = LEFT, anchor=W, padx=20, expand=True)
+
         self.fscreen = BooleanVar()
         ttk.Button(head, text = 'Fullscreen mode', command= lambda: self.fullscreenMode(master)).pack(side = RIGHT, anchor=E, padx=20, expand=False)
         ttk.Button(head, text = 'Report a bug', command=lambda: self.bugRep(master)). pack(side = RIGHT, anchor=E, expand=False)
 
 
         # Variable controlling layout details of all elements in the Body Frame
-        lBodyLayout = {'side':LEFT, 'padx':20}
-        rBodyLayout = {'side':RIGHT, 'padx':20, 'ipadx': 10, 'ipady':10}
+        bodyLayoutLeft = {'side':LEFT, 'padx':20}
+        bodyLayoutRight = {'side':RIGHT, 'padx':20, 'ipadx': 10, 'ipady':10}
 
 
         tickerField = Frame(body)
-        tickerField.pack(lBodyLayout)
+        tickerField.pack(bodyLayoutLeft)
         ttk.Label(tickerField, text="Ticker").pack()
         self.ticker = StringVar()
         ttk.Entry(tickerField, textvariable= self.ticker, justify= CENTER).pack()
         self.ticker.set('ETH')      #Displays ETH as an default value in the entry field
 
         startDateField = Frame(body)
-        startDateField.pack(lBodyLayout)
+        startDateField.pack(bodyLayoutLeft)
         ttk.Label(startDateField, text="Beginning date", justify= CENTER).pack()
         self.startDate = ttk.Entry(startDateField)
         self.startDate.pack()
         
         endDateField = Frame(body)
-        endDateField.pack(lBodyLayout)
+        endDateField.pack(bodyLayoutLeft)
         ttk.Label(endDateField, text="End date", justify= CENTER).pack()
         self.endDate = ttk.Entry(endDateField)
         self.endDate.pack()
         
         dropDownField = Frame(body)
-        dropDownField.pack(lBodyLayout)
+        dropDownField.pack(bodyLayoutLeft)
         ttk.Label(dropDownField, text="Char type").pack()
         self.charType = StringVar()
         ttk.Combobox(dropDownField, values=['line', 'candle', 'ohlc', 'pnf', 'renko'], validate= 'all', textvariable= self.charType).pack()
         self.charType.set('line')
 
         self.volume = BooleanVar()
-        ttk.Checkbutton(body, text="Trading volume", variable=self.volume, onvalue=True, offvalue=False).pack(lBodyLayout)
+        ttk.Checkbutton(body, text="Trading volume", variable=self.volume, onvalue=True, offvalue=False).pack(bodyLayoutLeft)
         self.volume.set(True)
 
 
-        ttk.Button(body, text = 'Quit', command= master.destroy).pack(rBodyLayout)
-        ttk.Button(body, text = 'App status', command= lambda: messagebox.showinfo('App status', "version 0.3 - Still ugly, but got a layout!")).pack(rBodyLayout)
-        ttk.Button(body, text = 'Create graph', command= lambda: getCryptoGraph(self.ticker.get(), self.startDate.get(),self.endDate.get(), tradVolume= self.volume.get(), chartType= self.charType.get() )).pack(rBodyLayout)
+        ttk.Button(body, text = 'Quit', command= master.destroy).pack(bodyLayoutRight)
+        ttk.Button(body, text = 'App status', command= lambda: messagebox.showinfo('App status', "version 0.4 - Whoa! Graph is now a part of the GUI")).pack(bodyLayoutRight)
+        ttk.Button(body, text = 'Create graph', command= lambda: getCryptoGraph(graph, self.ticker.get(), self.startDate.get(),self.endDate.get() )).pack(bodyLayoutRight) #, tradVolume= self.volume.get(), chartType= self.charType.get()
         
+        getCryptoGraph(graph, self.ticker.get(), self.startDate.get(),self.endDate.get())
         ttk.Label(graph, text= 'Graph placeholder').pack(side=TOP)
         ttk.Label(graph, text= 'Graph placeholder').pack(side=BOTTOM)
         ttk.Label(foot, text= 'Foot placeholder').pack(side=TOP)
